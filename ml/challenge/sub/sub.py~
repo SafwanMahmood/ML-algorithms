@@ -1,0 +1,19 @@
+import numpy as np
+import pandas as pd
+import random
+
+
+dataset = pd.read_csv("TrainDataBinaryClassification.csv")
+dataset = dataset.drop(dataset.columns[0], axis=1)		
+from sklearn.cross_validation import train_test_split
+dataset = dataset.loc[random.sample(list(dataset.index),dataset.shape[0])]
+X = np.array(dataset[dataset.columns[0:dataset.shape[1]-1]])
+y = np.array(dataset[dataset.columns[dataset.shape[1]-1]])
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=3,weights='distance')
+clf.fit(X, y)
+dataset1 = pd.read_csv("TestDataTwoClass.csv")
+dataset1 =dataset1.drop(dataset1.columns[0], axis=1)
+X1 = np.array(dataset1[dataset1.columns[0:dataset1.shape[1]]])
+y_pred = clf.predict(X1)
+
